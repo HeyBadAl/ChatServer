@@ -64,12 +64,12 @@ If you prefer to run the server without docker, you can use the following comman
 go run .
 ```
 
-## TODO 
+## TODO Tasks
 
-1. **Improve error handling and return appropriate HTTP status codes in handlers:**
-   - [ ] Enhance error handling in each handler function to provide meaningful error messages.
-   - [ ] Implement consistent use of HTTP status codes for different scenarios (e.g., 200 for success, 400 for bad request, 404 for not found, 500 for server errors).
-   - [ ] Include additional context in error responses, such as error codes or descriptions, to assist clients in understanding and responding to errors.
+1. ✔️  **Improve error handling and return appropriate HTTP status codes in handlers:**
+   - [x] Enhance error handling in each handler function to provide meaningful error messages.
+   - [x] Implement consistent use of HTTP status codes for different scenarios (e.g., 200 for success, 400 for bad request, 404 for not found, 500 for server errors).
+   - [x] Include additional context in error responses, such as error codes or descriptions, to assist clients in understanding and responding to errors.
 
 2. **Implement unit tests for critical parts of the application:**
    - [ ] Create unit tests for each handler function to validate their behavior under various conditions.
