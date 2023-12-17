@@ -5,6 +5,10 @@ on:
     brnaches:
       - main 
 
+  pull_request:
+    brnaches:
+      - main
+
 jobs:
   build: 
     runs-on: ubuntu-latest 
