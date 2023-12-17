@@ -11,6 +11,7 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := utils.UpgradeToWebSocket(w, r)
 	if err != nil {
 		log.Printf("WebSocket upgrade failed: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 	defer conn.Close()
@@ -23,6 +24,7 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		err := conn.ReadJSON(&msg)
 		if err != nil {
 			log.Printf("Error reading WebSocket message: %v", err)
+			http.Error(w, "Bad Request", http.StatusBadRequest)
 			return
 		}
 		messageChan <- msg
