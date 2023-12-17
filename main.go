@@ -1,11 +1,11 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"HeyBadAl/ChatServer/handlers"
 )
-
 
 func main() {
 	http.HandleFunc("/webhook", handlers.WebhookHandler)
@@ -13,5 +13,8 @@ func main() {
 
 	go handlers.NotifySubscribers()
 
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal("Error starting the server: ", err)
+	}
 }
