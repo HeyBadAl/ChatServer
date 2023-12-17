@@ -1,0 +1,7 @@
+package handlers // import "HeyBadAl/ChatServer/handlers"
+
+Package handlers provides HTTP handlers for the ChatServer application.
+
+func NotifySubscribers()
+func SendMessageHandler(w http.ResponseWriter, r *http.Request)
+func WebhookHandler(w http.ResponseWriter, r *http.Request)

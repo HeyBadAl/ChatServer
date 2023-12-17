@@ -1,3 +1,4 @@
+// Package handlers provides HTTP handlers for the ChatServer application.
 package handlers
 
 import (
@@ -7,6 +8,7 @@ import (
 	"HeyBadAl/ChatServer/utils"
 )
 
+// WebhookHandler handles WebSocket connections and process incoming messages
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := utils.UpgradeToWebSocket(w, r)
 	if err != nil {
