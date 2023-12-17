@@ -90,10 +90,10 @@ go run .
    - [ ] Update the documentation to reflect any changes made to the codebase.
    - [ ] Consider generating documentation using tools like GoDoc for an automated and consistent documentation process.
 
-6. **Set up a continuous integration (CI) pipeline:**
-   - [ ] Configure a CI pipeline to automate the testing and building processes.
-   - [ ] Integrate the CI pipeline with version control (e.g., GitHub Actions, GitLab CI) for seamless integration.
-   - [ ] Ensure that the CI pipeline includes running tests, building the application, and possibly deploying to staging environments for thorough validation.
+6. ✔️  **Set up a continuous integration (CI) pipeline:**
+   - [x] Configure a CI pipeline to automate the testing and building processes.
+   - [x] Integrate the CI pipeline with version control (e.g., GitHub Actions, GitLab CI) for seamless integration.
+   - [x] Ensure that the CI pipeline includes running tests, building the application, and possibly deploying to staging environments for thorough validation.
 
 7. **Consider container orchestration tools for deployment:**
    - [ ] Explore container orchestration tools like Kubernetes or Docker Compose for managing and scaling the application in production.
