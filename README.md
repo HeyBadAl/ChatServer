@@ -16,11 +16,12 @@ git clone https://github.com/HeyBadAl/ChatServer
 cd ChatServer
 ```
 
-3. Run the server
+3. Build and run the docker 
 ```bash
-go run main.go
+docker build -t chatserver .
+docker run -p 8080:8080 chatserver
 ```
-The server will start running at `http://localhost:8080`
+The server will start running at `http://localhost:8080`.
 
 # API Endpoints
 
@@ -54,6 +55,14 @@ Send a message to the chat through this RESTful endpoint.
 curl -X POST -d '{"user": "user", "content": "Hello, World!"}' http://localhost:8080/send
 ```
 This message will be broadcasted to all connected clients.
+
+
+# Running without docker 
+
+If you prefer to run the server without docker, you can use the following command to start the server:
+```bash
+go run .
+```
 
 # Contributing
 
