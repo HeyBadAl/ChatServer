@@ -85,10 +85,10 @@ go run .
    - [ ] Implement input validation to prevent common security issues, such as injection attacks or malformed requests.
    - [ ] Ensure secure connections, especially when dealing with sensitive information.
 
-5. **Document the code:**
-   - [ ] Provide clear and concise comments for complex or critical sections of code.
-   - [ ] Update the documentation to reflect any changes made to the codebase.
-   - [ ] Consider generating documentation using tools like GoDoc for an automated and consistent documentation process.
+5. ✔️ **Document the code:**
+   - [x] Provide clear and concise comments for complex or critical sections of code.
+   - [x] Update the documentation to reflect any changes made to the codebase.
+   - [x] Consider generating documentation using tools like GoDoc for an automated and consistent documentation process.
 
 6. ✔️  **Set up a continuous integration (CI) pipeline:**
    - [x] Configure a CI pipeline to automate the testing and building processes.
