@@ -16,8 +16,9 @@ type Message struct {
 
 var (
 	messages    []Message
-	mutex       sync.Mutex
+	messagesMu  sync.Mutex
 	subscribers = make(map[chan<- Message]struct{})
+	subMu       sync.Mutex
 	upgrader    = websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
@@ -42,13 +43,10 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-
 	defer conn.Close()
 
 	messageChan := make(chan Message)
-	mutex.Lock()
-	subscribers[messageChan] = struct{}{}
-	mutex.Unlock()
+	addSubscriber(messageChan)
 
 	for {
 		var msg Message
@@ -57,7 +55,6 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 			return
 		}
-
 		messageChan <- msg
 	}
 }
@@ -69,18 +66,27 @@ func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	mutex.Lock()
-	messages = append(messages, msg)
-	mutex.Unlock()
-
+	addMessage(msg)
 	broadcastMessage(msg)
 
 	w.WriteHeader(http.StatusNoContent)
 }
 
+func addSubscriber(subscriber chan<- Message) {
+	subMu.Lock()
+	defer subMu.Unlock()
+	subscribers[subscriber] = struct{}{}
+}
+
+func addMessage(msg Message) {
+	messagesMu.Lock()
+	defer messagesMu.Unlock()
+	messages = append(messages, msg)
+}
+
 func broadcastMessage(msg Message) {
-	mutex.Lock()
-	defer mutex.Unlock()
+	subMu.Lock()
+	defer subMu.Unlock()
 	for ch := range subscribers {
 		ch <- msg
 	}
@@ -88,15 +94,15 @@ func broadcastMessage(msg Message) {
 
 func notifySubscribers() {
 	for {
-		mutex.Lock()
+		messagesMu.Lock()
 		if len(messages) > 0 {
 			msg := messages[0]
 			messages = messages[1:]
-			mutex.Unlock()
+			messagesMu.Unlock()
 
 			broadcastMessage(msg)
 		} else {
-			mutex.Unlock()
+			messagesMu.Unlock()
 		}
 	}
 }
