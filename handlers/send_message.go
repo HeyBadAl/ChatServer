@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"HeyBadAl/ChatServer/utils"
@@ -10,6 +11,7 @@ import (
 func SendMessageHandler(w http.ResponseWriter, r *http.Request) {
 	var msg utils.Message
 	if err := json.NewDecoder(r.Body).Decode(&msg); err != nil {
+		log.Printf("Error decoding JSON: %v", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
