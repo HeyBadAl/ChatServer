@@ -16,7 +16,7 @@ type Message struct {
 
 var (
 	messages    []Message
-	mutext      sync.Mutex
+	mutex       sync.Mutex
 	subscribers = make(map[chan<- Message]struct{})
 	upgrader    = websocket.Upgrader{
 		ReadBufferSize:  1024,
@@ -45,13 +45,11 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer conn.Close()
 
-	// new channel for this client
 	messageChan := make(chan Message)
 	mutex.Lock()
 	subscribers[messageChan] = struct{}{}
 	mutex.Unlock()
 
-	// Listen for messages from the client
 	for {
 		var msg Message
 		err := conn.ReadJSON(&msg)
@@ -71,12 +69,10 @@ func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// add the message to the in-memory data structure
-	mutex.lock()
+	mutex.Lock()
 	messages = append(messages, msg)
 	mutex.Unlock()
 
-	// Notify all subscribers about the new message
 	broadcastMessage(msg)
 
 	w.WriteHeader(http.StatusNoContent)
