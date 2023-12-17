@@ -16,13 +16,15 @@ type Message struct {
 
 var (
 	messages    []Message
-	mutex       sync.Mutex
+	mutext      sync.Mutex
+	subscribers = make(map[chan<- Message]struct{})
 	upgrader    = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
 		CheckOrigin: func(r *http.Request) bool {
 			return true
 		},
 	}
-	subscribers = make(map[*websocket.Conn]struct{})
 )
 
 func main() {
@@ -40,20 +42,25 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
+
 	defer conn.Close()
 
+	// new channel for this client
+	messageChan := make(chan Message)
 	mutex.Lock()
-	subscribers[conn] = struct{}{}
+	subscribers[messageChan] = struct{}{}
 	mutex.Unlock()
 
+	// Listen for messages from the client
 	for {
 		var msg Message
 		err := conn.ReadJSON(&msg)
 		if err != nil {
 			fmt.Println(err)
-			break
+			return
 		}
-		broadcastMessage(msg)
+
+		messageChan <- msg
 	}
 }
 
@@ -64,10 +71,12 @@ func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	mutex.Lock()
+	// add the message to the in-memory data structure
+	mutex.lock()
 	messages = append(messages, msg)
 	mutex.Unlock()
 
+	// Notify all subscribers about the new message
 	broadcastMessage(msg)
 
 	w.WriteHeader(http.StatusNoContent)
@@ -76,19 +85,22 @@ func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 func broadcastMessage(msg Message) {
 	mutex.Lock()
 	defer mutex.Unlock()
-	for conn := range subscribers {
-		err := conn.WriteJSON(msg)
-		if err != nil {
-			delete(subscribers, conn)
-			conn.Close()
-		}
+	for ch := range subscribers {
+		ch <- msg
 	}
 }
 
 func notifySubscribers() {
 	for {
-		msg := <-messages
-		broadcastMessage(msg)
+		mutex.Lock()
+		if len(messages) > 0 {
+			msg := messages[0]
+			messages = messages[1:]
+			mutex.Unlock()
+
+			broadcastMessage(msg)
+		} else {
+			mutex.Unlock()
+		}
 	}
 }
-
