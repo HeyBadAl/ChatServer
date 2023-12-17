@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"HeyBadAl/ChatServer/utils"
@@ -10,7 +10,7 @@ import (
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := utils.UpgradeToWebSocket(w, r)
 	if err != nil {
-		fmt.Println(err)
+		log.Printf("WebSocket upgrade failed: %v", err)
 		return
 	}
 	defer conn.Close()
@@ -22,7 +22,7 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		var msg utils.Message
 		err := conn.ReadJSON(&msg)
 		if err != nil {
-			fmt.Println(err)
+			log.Printf("Error reading WebSocket message: %v", err)
 			return
 		}
 		messageChan <- msg
