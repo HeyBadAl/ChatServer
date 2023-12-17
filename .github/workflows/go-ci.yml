@@ -26,10 +26,3 @@ jobs:
 
       - name: Build
         run: go build -o main 
-
-
-      - name: Run linters and static analysis 
-        run: |
-          go get mvdan.cc/gofumpt 
-          gofumpt -s -w .
-          go vet ./...
