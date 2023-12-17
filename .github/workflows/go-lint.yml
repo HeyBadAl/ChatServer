@@ -5,6 +5,10 @@ on:
     brnaches:
       - main 
 
+  pull_request:
+    brnaches:
+      - main
+
 jobs: 
   golangci:
       name: lint 
