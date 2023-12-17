@@ -1,0 +1,2 @@
+Package main provide the entry points and configuration for the ChatServer
+Application.

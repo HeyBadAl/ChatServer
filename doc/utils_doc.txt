@@ -1,0 +1,14 @@
+package utils // import "HeyBadAl/ChatServer/utils"
+
+Package utils provide utility functions and data structures for the ChatServer
+Application.
+
+var Messages []Message
+var MessagesMutex sync.Mutex
+var Subscribers = make(map[chan<- Message]struct{})
+var SubscribersMutex sync.Mutex
+func AddMessage(msg Message)
+func AddSubscriber(subscriber chan<- Message)
+func BroadcastMessage(msg Message)
+func UpgradeToWebSocket(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error)
+type Message struct{ ... }
