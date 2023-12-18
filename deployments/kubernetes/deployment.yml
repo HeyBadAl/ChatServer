@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-server-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: chat-server 
+  template:
+    metadata:
+      labels:
+        app: chat-server
+    spec:
+      containers:
+        - name: deployment
+          image: badal1/chat-server:latest
+          ports:
+            - containerPort: 8080
+
