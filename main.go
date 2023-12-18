@@ -2,9 +2,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
+	"HeyBadAl/ChatServer/config"
 	"HeyBadAl/ChatServer/handlers"
 )
 
@@ -13,12 +15,15 @@ const DefaultPort = "8080"
 
 // main is the entry point for the application
 func main() {
+	configData := config.ReadConfig()
+
 	http.HandleFunc("/webhook", handlers.WebhookHandler)
 	http.HandleFunc("/send", handlers.SendMessageHandler)
 
 	go handlers.NotifySubscribers()
 
-	err := http.ListenAndServe(":"+DefaultPort, nil)
+	addr := fmt.Sprintf(":%s", configData.Port)
+	err := http.ListenAndServe(addr, nil)
 	if err != nil {
 		log.Fatal("Error starting the server: ", err)
 	}
