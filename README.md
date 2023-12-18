@@ -64,6 +64,31 @@ If you prefer to run the server without docker, you can use the following comman
 go run .
 ```
 
+# Minikube Deployment
+
+If you prefer to use Minikube for local Kuberneted deployment, follow these additional steps:
+
+1. Install `kubectl` on your machine. You can find installation instructions [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+2. Install `minikube` on your machine. You can find installation instructions [here](https://minikube.sigs.k8s.io/docs/start/)
+3. Start Minikube by using the following command:
+```bash
+minikube start
+```
+4. Apply the Kubernetes using the following command:
+```bash
+kubectl apply -f deployment/kubernetes/deployment.yml
+kubectl apply -f deployment/kubernetes/service.yml
+kubectl apply -f deployment/kubernetes/ingress.yml
+```
+5. Retrieve the Minikube IP address by using the following command:
+```bash
+minikube ip
+```
+6. Access the deployed Chat Server using the Minikube IP and specified Ingress host:
+    - Open your `/etc/hosts` file and add an entry with the Minikube IP and host name from the Ingress configuration.
+    - Open a web browser and navigate to the specified host.
+
+
 ## TODO Tasks
 
 1. ✔️  **Improve error handling and return appropriate HTTP status codes in handlers:**
