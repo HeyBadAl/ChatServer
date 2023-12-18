@@ -95,9 +95,9 @@ go run .
    - [x] Integrate the CI pipeline with version control (e.g., GitHub Actions, GitLab CI) for seamless integration.
    - [x] Ensure that the CI pipeline includes running tests, building the application, and possibly deploying to staging environments for thorough validation.
 
-7. **Consider container orchestration tools for deployment:**
-   - [ ] Explore container orchestration tools like Kubernetes or Docker Compose for managing and scaling the application in production.
-   - [ ] Investigate deployment strategies, load balancing, and recovery mechanisms provided by container orchestration platforms.
+7. ✔️  **Consider container orchestration tools for deployment:**
+   - [x] Explore container orchestration tools like Kubernetes or Docker Compose for managing and scaling the application in production.
+   - [x] Investigate deployment strategies, load balancing, and recovery mechanisms provided by container orchestration platforms.
 
 8. **Conduct code reviews:**
    - [ ] Establish a code review process within the team to improve code quality.
