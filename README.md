@@ -101,9 +101,9 @@ minikube ip
    - [ ] Cover critical utility functions with unit tests to ensure their correctness.
    - [ ] Use testing frameworks like Go's built-in `testing` package or external packages like `testify` for comprehensive test coverage.
 
-3. **Add configuration options for the server:**
-   - [ ] Implement a configuration mechanism, allowing users to customize server settings.
-   - [ ] Consider using environment variables, a configuration file, or command-line flags for configuring parameters like the server port, WebSocket settings, and other relevant options.
+3. ✔️ **Add configuration options for the server:**
+   - [x] Implement a configuration mechanism, allowing users to customize server settings.
+   - [x] Consider using environment variables, a configuration file, or command-line flags for configuring parameters like the server port, WebSocket settings, and other relevant options.
 
 4. **Assess and implement security best practices:**
    - [ ] Conduct a security review of the application, identifying potential vulnerabilities.
